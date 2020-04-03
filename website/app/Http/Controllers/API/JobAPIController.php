@@ -4,12 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateJobAPIRequest;
 use App\Http\Requests\API\UpdateJobAPIRequest;
+use App\Http\Resources\User;
 use App\Models\Job;
 use App\Repositories\JobRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
-
+use App\Http\Resources\Job as JobRessources;
 /**
  * Class JobController
  * @package App\Http\Controllers\API
@@ -40,7 +41,8 @@ class JobAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse($jobs->toArray(), 'Jobs retrieved successfully');
+        return JobRessources::collection(Job::all());
+       // return $this->sendResponse($jobs->toArray(), 'Jobs retrieved successfully');
     }
 
     /**
@@ -70,14 +72,21 @@ class JobAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Job $job */
-        $job = $this->jobRepository->find($id);
+        return new JobRessources(Job::find($id));
+    }
 
-        if (empty($job)) {
-            return $this->sendError('Job not found');
-        }
 
-        return $this->sendResponse($job->toArray(), 'Job retrieved successfully');
+    public function search(Request $request) {
+        $mot = $request->input('mot');
+        $typeoffre = $request->input('typeoffre');
+        $secteur = $request->input('secteur');
+        $niveau = $request->input('niveau');
+
+
+        return JobRessources::collection(Job::where([
+            ['niveauetude','like',"%{$niveau}%"],['typeoffre','like',"%{$typeoffre}%"],
+            ['secteuractivite','like',"%{$secteur}%"], ['titre','like',"%{$mot}%"]]));
+
     }
 
     /**

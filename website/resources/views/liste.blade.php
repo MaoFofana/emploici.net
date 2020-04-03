@@ -171,11 +171,12 @@
                                     </div>
                                     <div class="jobs_right">
                                         <div class="apply_now">
-                                            <!--a-- class="heart_mark" href="#"> <i class="ti-heart"></i> </a-->
+                                            <!--a-- class="heart_mark" href="{{url('/details/'.$job->id)}}"> <i class="ti-heart"></i> </a-->
+                                            <a href="{{url('/details/'.$job->id)}}"  class="boxed-btn3 btn-block">Voir </a>
                                             <form action="{{url('/details')}}" method="post">
                                                 {!! csrf_field() !!}
                                                 <input type="hidden" name="id" value="{{$job->id}}">
-                                                <input type="submit" value="Voir"  class="boxed-btn3 btn-block">
+
                                             </form>
                                         </div>
                                         <div class="date">

@@ -3,17 +3,17 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  final String name;
-  final String prenom;
-  final String fonction;
-  final String link;
-  final String cv;
-  final String role;
-  final String email;
-  final int id;
-  final String emailVerifiedAt;
-  final String createdAt;
-  final String updatedAt;
+   String name;
+   String prenom;
+   String fonction;
+   String link;
+   String cv;
+   String role;
+   String email;
+   int id;
+   String emailVerifiedAt;
+   String createdAt;
+   String updatedAt;
 
   User({this.emailVerifiedAt, this.createdAt, this.updatedAt, this.id ,this.name, this.prenom, this.fonction, this.link, this.cv, this.role,  this.email});
 

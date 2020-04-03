@@ -1,23 +1,13 @@
 import 'dart:async';
-import 'dart:html';
-
 import 'package:emploici/Animations/FadeAnimation.dart';
-import 'package:emploici/Conversation.dart';
 import 'package:emploici/HomePage.dart';
-import 'package:emploici/LoginPage.dart';
-import 'package:emploici/api/api.dart';
-import 'package:emploici/model/message.dart';
-import 'package:emploici/other/IdRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:http/http.dart' as http;
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 
-const SERVER_BASE_IP = "http://127.0.0.1:8000";
-const SERVER_IP = "http://127.0.0.1:8000/api/auth";
+const SERVER_BASE_IP = "http://emploici.net/web/public";
+const SERVER_IP = "$SERVER_BASE_IP/api/auth";
 final storage = FlutterSecureStorage();
 
 void main() => runApp(
@@ -49,11 +39,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
   Timer timer;
 
 
+
    @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
      _scaleController = AnimationController(
         vsync: this,
         duration: Duration(milliseconds: 300)
@@ -108,17 +98,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
         end: 32.0
     ).animate(_scale2Controller)..addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        var idRepository = new IdRepository();
-        var token = idRepository.getId();
 
-
-        if (token != null) {
           Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: HomePage()));
-        } else {
-          Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: LoginPage()));
-
-        }
-
       }
     });
   }
@@ -126,9 +107,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
-
       backgroundColor: Color.fromRGBO(10,69, 122, 1),
       body: Container(
         decoration: BoxDecoration(
@@ -212,7 +191,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
                                   color: Colors.green.withOpacity(.4)
                               ),
                               child: InkWell(
-                                onTap: () {
+                                onTap: ()  {
                                   _scaleController.forward();
                                 },
                                 child: Stack(
@@ -254,4 +233,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
       ),
     );
   }
+
+
+  void displayDialog(BuildContext context, String title, String text) =>
+      showDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
+                title: Text(title),
+                content: Text(text)
+            ),
+      );
 }

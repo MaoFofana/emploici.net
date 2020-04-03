@@ -45,6 +45,16 @@ class MessageAPIController extends AppBaseController
         return $this->sendResponse($messages->toArray(), 'Messages retrieved successfully');
     }
 
+    public function lu(Request $request){
+        $id = $request->id; 
+        $messages = Message::where('from',$id) ->orWhere('to', $id)->get();
+        foreach ($messages as $message){
+            Message::where('id', $message->id)
+               ->update(['lu' => true]);
+
+        }
+        return "";
+    }
     /**
      * Store a newly created Message in storage.
      * POST /messages

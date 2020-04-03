@@ -1,132 +1,186 @@
-import 'dart:html';
-
-import 'package:emploici/Conversation.dart';
 import 'package:emploici/HomePage.dart';
-import 'package:emploici/ListeUsers.dart';
-import 'package:emploici/Profile.dart';
 import 'package:emploici/api/api.dart';
 import 'package:emploici/main.dart';
-import 'package:emploici/Animations/FadeAnimation.dart';
-import 'package:emploici/model/user.dart';
-import 'package:emploici/other/IdRepository.dart';
 import 'package:flutter/material.dart';
-import 'package:getflutter/components/button/gf_button.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:convert' show json, base64, ascii, jsonDecode;
+import 'package:url_launcher/url_launcher.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key}) : super(key: key);
+
+
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Widget _entryField(String title,TextEditingController _controller, {bool isPassword = false}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+              obscureText: isPassword,
+              controller: _controller,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+  Widget _submitButton() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Colors.blue, Colors.blue])),
+      child: Text(
+        'Connexion',
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _createAccountLabel() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.bottomCenter,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Vous n'avez pas de compte?",
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          InkWell(
+            onTap: () {
+              launch('$SERVER_BASE_IP/register');
+            },
+            child: Text(
+              'Inscrivez-vous',
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _title() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'Emploici.net',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+            color: Colors.green,
+          )),
+    );
+  }
+
+  Widget _emailPasswordWidget() {
+    return Column(
+      children: <Widget>[
+        _entryField("Email", _emailController),
+        _entryField("Mot de passe",_passwordController, isPassword: true),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(10,69, 122, 1),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/banner.png"),
-            fit: BoxFit.cover,
-          ),
+        appBar: GFAppBar(
+          title: Text("Connexion"),
         ),
-        padding: EdgeInsets.all(30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Positioned(
-                bottom: 14,
-                right: 20,
-                left: 0,
-                child: FadeAnimation(1.6, Container(
-                  width:170,
-                  height: 180,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/illustration.png'),
-                          fit: BoxFit.cover
-                      )
-                  ),
-                ))),
-            FadeAnimation(1.2, Text("Connection",
-              style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),)),
-            SizedBox(height: 30,),
-            FadeAnimation(1.5, Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[300]))
+        body:  Container(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 3,
+                      child: SizedBox(),
                     ),
-                    child: TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.grey.withOpacity(.8)),
-                          hintText: "Email"
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                    ),
-                    child: TextField(
-                      obscureText: true,
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.grey.withOpacity(.8)),
-                          hintText: "Mot de passe"
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )),
-            SizedBox(height: 40,),
-            FadeAnimation(1.8, Center(
-              child: Container(
-                width: 120,
-
-                child: Center(
-                    child:
-                    GFButton(
-                      onPressed: ()async {
+                    _title(),
+                    SizedBox(height: 50,),
+                    _emailPasswordWidget(),
+                    SizedBox(height: 20,),
+                    InkWell(
+                      child: _submitButton(),
+                      onTap: () async {
                         var email = _emailController.text;
                         var password = _passwordController.text;
-
                         var user = await attemptLogIn(email, password);
                         if(user != null) {
                           Navigator.push(
                               context,
                               PageTransition(type: PageTransitionType.fade, child: HomePage()));
-
                         } else {
-                          displayDialog(context, "Une erreur est apparu",
-                              "Veuillez ressaiyez ");
-                        }
 
+                          displayDialog(context, "Une erreur est apparu",
+                              "Veuillez saisir les identifiants exacts");
+                        }
                       },
-                      text: "Connexion",
-                      size: GFSize.LARGE,
-                      blockButton: true,
-                      shape: GFButtonShape.standard,
-                      elevation: 0.6,
-                      color: Colors.green,
                     ),
-                   ),
+
+
+                    SizedBox(height: 20,),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _createAccountLabel(),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(),
+                    ),
+                  ],
+                ),
               ),
-            )),
-          ],
-        ),
-      ),
+
+
+
+            ],
+          ),
+        )
+
     );
   }
 

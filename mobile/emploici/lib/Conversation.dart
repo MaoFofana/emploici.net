@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:emploici/HomePage.dart';
 import 'package:emploici/api/api.dart';
 import 'package:emploici/model/message.dart';
 import 'package:emploici/other/ChatBubble.dart';
 import 'package:emploici/other/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'main.dart';
 
 
@@ -18,30 +20,25 @@ class Conversation extends StatefulWidget {
  final bool admin;
   Conversation(this.from ,this.to , this.name, this.image, this.admin);
   @override
-  _ConversationState createState() => _ConversationState(from, to , name, image , this.admin);
+  _ConversationState createState() => _ConversationState();
 }
 
 class _ConversationState extends State<Conversation> {
 
-  final int from;
-  final int to;
-  final String  name ;
-  final String image;
-  final bool admin;
   Future<List> futureMessage;
   TextEditingController _message = new TextEditingController();
-  _ConversationState(this.from, this.to,this.name, this.image, this.admin);
+
   Timer _timer;
   @override
   void initState() {
     super.initState();
-    futureMessage = getMessages(from);
+    futureMessage = getMessages(widget.from);
     _timer = Timer.periodic(Duration(seconds: 1), (Timer t) => updateIPI());
   }
 
   updateIPI(){
     setState(() {
-      futureMessage = getMessages(from);
+      futureMessage = getMessages(widget.from);
     });
   }
 /*
@@ -57,34 +54,34 @@ class _ConversationState extends State<Conversation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.admin ?AppBar(
         leading: IconButton(
           icon: Icon(
             Icons.keyboard_backspace,
           ),
-          onPressed: ()=>Navigator.pop(context),
+          onPressed: (){
+            Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: HomePage(index: 1 )));
+          },
         ),
         titleSpacing: 0,
         title: InkWell(
           child: Row(
-
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 0.0, right: 10.0),
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(
-                      SERVER_BASE_IP + "/storage/"+ image,
+                      SERVER_BASE_IP + "/storage/"+ widget.image,
                   ),
                 ),
               ),
-
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(height: 15.0),
                     Text(
-                      name,
+                      widget.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -106,13 +103,19 @@ class _ConversationState extends State<Conversation> {
 
           onTap: (){},
         ),
-      ),
+      ): null,
 
 
       body: new FutureBuilder<List>(
         future: futureMessage,
         builder: (context, snapshot) {
           if(snapshot.hasData){
+            List<Message> messages = [];
+            for(int i = 0; i < snapshot.data.length; i ++){
+              Map<String, dynamic> json = snapshot.data[i];
+              Message message = new Message(to: json['to'], from: json['from'],message: json['message']);
+              messages.add(message);
+            }
             return  Container(
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -124,12 +127,12 @@ class _ConversationState extends State<Conversation> {
                       itemCount: snapshot.data.length,
                       reverse: true,
                       itemBuilder: (BuildContext context, int index) {
-                        Map<String, dynamic> json = snapshot.data[index];
+                       Message _message = messages[index];
                         return ChatBubble(
-                            message : json['message'],
+                            message : _message.message,
                           time : "",
-                        isMe : (admin? ((json['from'] as int == to)? true : false) : ((json['from'] as int == from)? true : false)),
-                        username : name,
+                        isMe : (widget.admin? ((_message.from  == widget.to)? true : false) : ((_message.from   == widget.from)? true : false)),
+                        username : widget.name,
                         type: "text",
                         replyText : '',
                         isReply : false,
@@ -202,16 +205,17 @@ class _ConversationState extends State<Conversation> {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  if(admin){
-                                    sendMessage(_message.text,from, 0);
+                                  if(widget.admin){
+                                    setState(() {
+                                      sendMessage(_message.text,widget.from, 0);
+                                    });
                                   }else{
-                                  sendMessage(_message.text,to, from);
+                                    setState(() {
+                                      sendMessage(_message.text,widget.to, widget.from);
+                                    });
                                   }
-
                                   _message.clear();
-                                  setState(() {
-                                    getMessages(from);
-                                  });
+
                                 },
                               ),
                             ),

@@ -31,7 +31,8 @@
 <!-- ================ contact section start ================= -->
 @if (Route::has('login'))
     @auth
-        <section class="contact-section section_padding">
+        @if(auth()->user()->role == "RECRUTEUR")
+            <section class="contact-section section_padding">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -168,6 +169,11 @@
                 </div>
             </div>
         </section>
+        @else
+            <h3 class="text-center">
+                <a class="boxed-btn3" href="{{url('/')}}">Vous n'etes pas un recruteur</a>
+            </h3>
+        @endif
     @else
         <h3 class="text-center">
             <a class="boxed-btn3" href="{{url('/login')}}">Connectez-vous d'abord</a>

@@ -1,13 +1,13 @@
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:emploici/LoginPage.dart';
-import 'package:emploici/HomePage.dart';
 import 'package:emploici/main.dart';
 import 'package:emploici/api/api.dart';
 import 'package:emploici/model/user.dart';
-import 'package:emploici/other/IdRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:getflutter/getflutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
-
+import 'Constante.dart';
 import 'LoginPage.dart';
 
 
@@ -18,14 +18,18 @@ class Profile extends StatefulWidget {
 
 class _MyProfileState extends State<Profile> {
   Future<User> futureUser;
-
+  LocalStorageInterface _localStorageInterface;
   @override
   void initState() {
     super.initState();
     futureUser = getMe();
+    _tokenVerified();
+  }
+  _tokenVerified() async {
+
+    _localStorageInterface = await LocalStorage.getInstance();
 
   }
-
   @override
   Widget build(BuildContext context) {
     return  new Scaffold(
@@ -74,7 +78,6 @@ class _MyProfileState extends State<Profile> {
                                 fontFamily: 'Montserrat'),
                           ),
                           SizedBox(height: 25.0),
-
                           Container(
                               height: 30.0,
                               width: 95.0,
@@ -85,8 +88,8 @@ class _MyProfileState extends State<Profile> {
                                 elevation: 7.0,
                                 child: GestureDetector(
                                   onTap: () async {
-                                    var idRepository = new IdRepository();
-                                    var token = idRepository.getId();
+                                    LocalStorageInterface _localStorageInterface = await LocalStorage.getInstance();
+                                    var token = _localStorageInterface.getString(tokenName);
                                     final response = await http.get(
                                       "$SERVER_IP/logout",
                                       headers: {'Authorization': 'Bearer $token', 'Content-type': 'application/json',
@@ -95,7 +98,7 @@ class _MyProfileState extends State<Profile> {
                                     if (response.statusCode == 200) {
                                       // If the server did return a 200 OK response,
                                       // then parse the JSON.
-                                      idRepository.invalidate();
+                                      _localStorageInterface.remove(tokenName);
                                       Navigator.push(
                                           context,
                                           PageTransition(type: PageTransitionType.fade, child: LoginPage()));
@@ -118,13 +121,40 @@ class _MyProfileState extends State<Profile> {
                 ],
               );
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error} jfjjf");
+          return Text("Veuillez vous connecté");
         }
 
-        // By default, show a loading spinner.
-        return Center(
-            child : CircularProgressIndicator()
-        );
+        var token = _localStorageInterface.getString(tokenName);
+        if(token != null){
+          return Center(
+            child: GFLoader(
+                type:GFLoaderType.circle
+            ),
+          );
+        }else {
+          return Center(
+            child: GFFloatingWidget(
+              child:GFAlert(
+                title: 'Veuillez vous connecté pour acceder à votre compte',
+                bottombar: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    GFButton(
+                      onPressed: (){
+                        Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: LoginPage()));
+                      },
+                      shape: GFButtonShape.pills,
+                      icon: Icon(Icons.keyboard_arrow_right, color: Colors.blue,),
+                      position: GFPosition.end,
+                      text: 'Je me connecte',)
+                  ],
+                ),
+              ),
+              horizontalPosition: 4,
+              verticalPosition: 150,
+            ),
+          );
+        }
       },
     )
     );

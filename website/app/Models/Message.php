@@ -23,8 +23,6 @@ class Message extends Model
     use SoftDeletes;
 
     public $table = 'messages';
-
-
     protected $dates = ['deleted_at'];
 
 
@@ -51,7 +49,7 @@ class Message extends Model
         'from'=> 'integer',
         'email'=>'string',
         'nom'=>'string',
-        'lu'=>'string'
+        'lu'=>'boolean'
     ];
 
     /**

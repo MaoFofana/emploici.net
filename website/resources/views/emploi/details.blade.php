@@ -7,7 +7,6 @@
     <title>Details </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
 @include('shared.head')
 </head>
 
@@ -160,6 +159,7 @@
                             <li>Localisation: <span>{{$job->lieu}}</span></li>
                             <li>Nature du travail: <span> {{$job->typeoffre}}</span></li>
                             <li>Email: <span> {{$job->user->email}}</span></li>
+                            <li>Niveau d'etude: <span> {{$job->niveauetude}}</span></li>
                         </ul>
                     </div>
                 </div>

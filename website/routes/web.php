@@ -45,12 +45,20 @@ Route::get('/', 'GestionController@index');
 
 Route::get('/emplois', 'GestionController@liste');
 
+Route::get('/details/{id}', function ($id){
+    $job =  \App\Models\Job::find($id);
+   return view('emploi.details', ['job'=>$job]);
+});
+
 Route::post('/details', 'GestionController@detail');
 
 Route::post('/uploadcv', 'GestionController@cv');
 
 Route::get('/poster', function () {
-    return view('emploi.create');
+
+        return view('emploi.create');
+
+
 });
 
 

@@ -31,6 +31,7 @@ Route::resource('new_letters', 'NewLetterAPIController');
 
 Route::resource('postulers', 'PostulerAPIController');
 
+Route::post('/search', 'JobAPIController@search');
 Route::group([
 
     'middleware' => 'api',
@@ -70,6 +71,8 @@ Route::group([
     Route::get('listmessage/{id}', "MessageAPIController@getMessage");
 
     Route::post('message/send', "MessageAPIController@sendMessage");
+
+    Route::post('lu', "MessageAPIController@lu");
 });
 
 

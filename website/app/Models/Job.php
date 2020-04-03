@@ -54,6 +54,7 @@ class Job extends Model
         'secteuractivite' => 'string',
         'niveauetude' => 'string',
         'lieu' => 'string',
+        'description' => 'string',
         'datelimite' => 'date',
         'nombreposte' => 'integer'
     ];

@@ -161,3 +161,5 @@ class JobController extends AppBaseController
         return redirect(route('jobs.index'));
     }
 }
+
+

@@ -96,7 +96,8 @@ class _ChatItemState extends State<ChatItem> {
                 ),
               ],
             ),
-            onTap: (){
+            onTap: () async {
+                var lu = await desableLu(widget.from);
               Navigator.of(context, rootNavigator: true).push(
                 MaterialPageRoute(
                   builder: (BuildContext context){
