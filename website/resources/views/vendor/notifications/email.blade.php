@@ -6,15 +6,13 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Hello!')
+# @lang('Bonjour!')
 @endif
 @endif
 
 {{-- Intro Lines --}}
-@foreach ($introLines as $line)
-{{ $line }}
 
-@endforeach
+<span>Vous recevez cet e-mail, car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.</span>
 
 {{-- Action Button --}}
 @isset($actionText)
@@ -34,30 +32,20 @@
 @endisset
 
 {{-- Outro Lines --}}
-@foreach ($outroLines as $line)
-{{ $line }}
+<span>
 
-@endforeach
+Ce lien de réinitialisation de mot de passe expirera dans 60 minutes.
+<br>
+Si vous n'avez pas demandé de réinitialisation du mot de passe, aucune autre action n'est requise.
+<br>
+Cordialement,
+</span>
 
-{{-- Salutation --}}
-@if (! empty($salutation))
-{{ $salutation }}
-@else
-@lang('Regards'),<br>
-{{ config('app.name') }}
-@endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 @slot('subcopy')
-@lang(
-    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser: [:actionURL](:actionURL)',
-    [
-        'actionText' => $actionText,
-        'actionURL' => $actionUrl,
-    ]
-)
+
 @endslot
 @endisset
 @endcomponent

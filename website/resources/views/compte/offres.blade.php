@@ -53,10 +53,10 @@
                                 {{$job->titre}}
                             </td>
                             <td>
-                                {{$job->created_at}}
+                                {{$job->created_at->format('d-m-Y')}}
                             </td>
                             <td>
-                                {{$job->datelimite}}
+                                {{$job->datelimite->format('d-m-Y')}}
                             </td>
                             <td>
                                 <div class="row">

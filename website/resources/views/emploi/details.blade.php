@@ -59,7 +59,7 @@
                 <div class="descript_wrap white-bg">
                     <div class="single_wrap">
                         <h4>Description</h4>
-                        <p>{{$job->description}}</p>
+                        <p>{!! $job->description !!}</p>
                     </div>
                     <!--div class="single_wrap">
                         <h4>Responsibility</h4>
@@ -153,8 +153,8 @@
                     </div>
                     <div class="job_content">
                         <ul>
-                            <li>Publier le: <span>{{$job->created_at}}</span></li>
-                            <li>Date limite: <span>{{$job->datelimite}}</span></li>
+                            <li>Publier le: <span class="datemoment">{{$job->created_at->format('d-m-Y')}}</span></li>
+                            <li>Date limite: <span>{{$job->datelimite->format('d-m-Y')}}</span></li>
                             <li>Nombre de poste: <span>{{$job->nombreposte}} </span></li>
                             <li>Localisation: <span>{{$job->lieu}}</span></li>
                             <li>Nature du travail: <span> {{$job->typeoffre}}</span></li>
@@ -163,7 +163,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="share_wrap d-flex">
+                <!--div-- class="share_wrap d-flex">
                     <span>Share at:</span>
                     <ul>
                         <li><a href="#"> <i class="fa fa-facebook"></i></a> </li>
@@ -171,7 +171,7 @@
                         <li><a href="#"> <i class="fa fa-twitter"></i></a> </li>
                         <li><a href="#"> <i class="fa fa-envelope"></i></a> </li>
                     </ul>
-                </div>
+                </div-->
                 <!--div-- class="job_location_wrap">
                     <div class="job_lok_inner">
                         <div id="map" style="height: 200px;"></div>

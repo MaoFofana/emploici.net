@@ -72,7 +72,7 @@
                         <div class="col-sm-6">
                             <div class="form-group ">
                                 <input class="form-control" name="fonction" id="fonction" type="text" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Entrer votre fonction passé ou actuelle'" placeholder = 'Entrer votre fonction passé ou actuel' value="">
+                                       onblur="this.placeholder = 'Entrer votre fonction passée ou actuelle'" placeholder = 'Entrer votre fonction passée ou actuelle' value="">
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
                         </div>
@@ -95,6 +95,7 @@
                         <div class="col-sm-6">
                             <div class="single_input">
                                 <select name="role" class="wide" id="selected">
+                                    <option disabled selected>Type de demande</option>
                                     <option value="CHERCHEUR">Chercheur d'emploi</option>
                                     <option value="RECRUTEUR" >Recruteur</option>
                                 </select>

@@ -7,13 +7,13 @@
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $entreprise->created_at }}</p>
+    <p>{{ $entreprise->created_at->format('d-m-Y') }}</p>
 </div>
 
 <!-- Updated At Field -->
 <div class="form-group">
     {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $entreprise->updated_at }}</p>
+    <p>{{ $entreprise->updated_at->format('d-m-Y') }}</p>
 </div>
 
 <!-- Deleted At Field -->

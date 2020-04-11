@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Password Reset | CoreUI | InfyOm Laravel Generator</title>
+    <title>Mot de passe</title>
     <meta name="description" content="CoreUI Template - InfyOm Laravel Generator">
     <meta name="keyword" content="CoreUI,Bootstrap,Admin,Template,InfyOm,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <!-- Bootstrap -->
@@ -33,8 +33,8 @@
                         @endif
                         <form method="post" action="{{ url('/password/email') }}">
                             {!! csrf_field() !!}
-                            <h1>Reset Your Password</h1>
-                            <p class="text-muted">Enter Email to reset password</p>
+                            <h3>Reintialiser votre mot de passe</h3>
+                            <p class="text-muted">Entrer un nouveau mot de passe</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -53,7 +53,7 @@
                             <div class="row">
                                 <div class="col-6 offset-6">
                                     <button class="btn btn-block btn-primary" type="submit">
-                                        <i class="fa fa-btn fa-envelope"></i> Send Password Reset Link
+                                        <i class="fa fa-btn fa-envelope"></i> Envoyer le lien
                                     </button>
                                 </div>
                             </div>

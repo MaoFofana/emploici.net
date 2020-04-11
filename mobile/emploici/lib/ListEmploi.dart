@@ -146,7 +146,7 @@ class _ListEmploiState extends State<ListEmploi>  with SingleTickerProviderState
     return Scaffold(
         appBar: GFAppBar(
           automaticallyImplyLeading: false,
-          title: Text("Liste des jobs "),
+          title: Text("Emploici.net "),
           actions: <Widget>[
             GFIconButton(
               padding: EdgeInsets.fromLTRB(0, 0, 10, 0),

@@ -41,7 +41,7 @@ class JobAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return JobRessources::collection(Job::all());
+        return JobRessources::collection(Job::all()->where('datelimite', ">=",date("Y-m-d H:i:s")));
        // return $this->sendResponse($jobs->toArray(), 'Jobs retrieved successfully');
     }
 

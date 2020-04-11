@@ -25,8 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(\auth()->user()->role != "ADMIN"){
+           return  redirect('/information');
+        }else {
+            return view('home');
+        }
 
-        return view('home');
     }
 
     public function update(Request $request){
@@ -42,6 +46,10 @@ class HomeController extends Controller
         $user->fonction = $fonction;
         $user->save();
 
-        return redirect('/information');
+        if(\auth()->user()->role != "ADMIN"){
+            return  redirect('/information');
+        }else {
+            return redirect("/profile");
+        }
     }
 }

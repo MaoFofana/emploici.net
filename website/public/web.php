@@ -1,5 +1,5 @@
 <?php
-Artisan::call('storage:link');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -87,12 +87,10 @@ Route::post('/destroyjob', 'GestionController@destroyoffre');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile', function (){
-    return view('users.moi', ['user'=>auth()->user()]);
-});
+
 Route::post('/search', 'GestionController@search');
 
-Route::post('/isAdmin', 'GestionController@isAdmin');
+
 
 Route::get('/users', function () {
     $user = \App\User::all();
@@ -105,4 +103,3 @@ Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";
 });
-

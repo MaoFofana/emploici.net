@@ -77,14 +77,14 @@
                             <input type="email" name="email" placeholder="Entre votre email">
                             <button type="submit">Envoyer</button>
                         </form>
-                        <p class="newsletter_text">Recevez des information sur des offres d'emploi.</p>
+                        <p class="newsletter_text">Recevez des informations sur des offres d'emploi.</p>
                     </div>
 
                     <div class="contact-info">
                         <div>
                             <img width="120" height="50" src="/storage/playstore.png" alt="">
                         </div>
-                        <p class="newsletter_text">Echanger mieux avec notre appliocation</p>
+                        <p class="newsletter_text">Echanger mieux avec notre application</p>
 
                     </div>
                 </div>
@@ -107,13 +107,15 @@
     </div>
 </footer>
 <!--/ footer end  -->
-
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix-core.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.js"></script>
 <!-- link that opens popup -->
 <!-- JS here -->
 <script src="{{asset('js/vendor/modernizr-3.5.0.min.js')}}"></script>
-<script src="{{asset('js/vendor/jquery-1.12.4.min.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/isotope.pkgd.min.js')}}"></script>
 <script src="{{asset('js/ajax-form.js')}}"></script>
@@ -136,10 +138,11 @@
 <!--script-- src="js/jquery.form.js')}}"></script-->
 <script src="{{asset('js/jquery.validate.min.js')}}"></script>
 <script src="{{asset('js/mail-script.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script>
 
-
+</script>
 <script src="{{asset('js/main.js')}}"></script>
-
 <script>
     $( function() {
         $( "#slider-range" ).slider({

@@ -154,7 +154,7 @@
                                 </form>
                             </div>
                             <div class="date">
-                                <p>Date limite: {{$job->datelimite}}</p>
+                                <p>Date limite: {{$job->datelimite->format('d-m-Y')}}</p>
                             </div>
                         </div>
                     </div>
@@ -165,6 +165,9 @@
     </div>
 </div>
 <!-- job_listing_area_end  -->
+
+    @else
+    <div class="mt-5 mb-5 text-center" ><h3>Aucun job n'est disponible actuellement </h3></div>
 @endif
 <!-- featured_candidates_area_start  >
 <div class="featured_candidates_area">

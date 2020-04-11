@@ -69,10 +69,10 @@
 
                 </form>
 
-                <h3>
-                    <!--a href="{{ url('/password/reset') }}">J'ai oublier mon mot de passe</a><br-->
-                    <a href="{{ url('/register') }}" class="text-center">Je suis un nouveau memebre</a>
-                </h3>
+                <h5>
+                    <a href="{{ url('/password/reset') }}">J'ai oublié mon mot de passe</a><br>
+                    <a href="{{ url('/register') }}" class="text-center">Je suis un nouveau membre</a>
+                </h5>
 
             </div>
         </div>

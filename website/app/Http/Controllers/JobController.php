@@ -32,7 +32,7 @@ class JobController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $jobs = $this->jobRepository->all();
+        $jobs = Job::withTrashed()->where('datelimite', ">=",date("Y-m-d H:i:s"))->get(); // $this->jobRepository->all();
 
         return view('jobs.index')
             ->with('jobs', $jobs);
@@ -149,14 +149,14 @@ class JobController extends AppBaseController
         $job = $this->jobRepository->find($id);
 
         if (empty($job)) {
-            Flash::error('Job not found');
+            Flash::error('Job non trouvé');
 
             return redirect(route('jobs.index'));
         }
 
         $this->jobRepository->delete($id);
 
-        Flash::success('Job deleted successfully.');
+        Flash::success('Action effectuée avec success.');
 
         return redirect(route('jobs.index'));
     }

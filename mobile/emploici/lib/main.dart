@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
 
 
-const SERVER_BASE_IP = "http://emploici.net/web/public";
+const SERVER_BASE_IP = "http://localhost:8000"; //"http://emploici.net/web/public";
 const SERVER_IP = "$SERVER_BASE_IP/api/auth";
 final storage = FlutterSecureStorage();
 
@@ -37,13 +37,18 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
   bool hideIcon = false;
 
   Timer timer;
-
+  Timer _timer;
+  goHome(){
+   // Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: HomePage()));
+    _scaleController.forward();
+  }
 
 
    @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer t) => goHome());
      _scaleController = AnimationController(
         vsync: this,
         duration: Duration(milliseconds: 300)
@@ -98,7 +103,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
         end: 32.0
     ).animate(_scale2Controller)..addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-
           Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: HomePage()));
       }
     });
@@ -169,7 +173,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  FadeAnimation(1, Text("Bienvenu",
+                  FadeAnimation(1, Text("Bienvenue",
                     style: TextStyle(color: Colors.white, fontSize: 50),)),
                   SizedBox(height: 15,),
                   FadeAnimation(1.3, Text("sur emploici.net",

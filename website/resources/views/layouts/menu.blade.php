@@ -1,4 +1,10 @@
 
+<li class="nav-item {{ Request::is('messages*') ? 'active' : '' }} }}">
+    <a class="nav-link" href="{{ url('/profile') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Profile</span>
+    </a>
+</li>
 
 <li class="nav-item {{ Request::is('messages*') ? 'active' : '' }} }}">
     <a class="nav-link" href="{{ url('/users') }}">
@@ -36,4 +42,13 @@
         <i class="nav-icon icon-cursor"></i>
         <span>Postulers</span>
     </a>
+</li>
+<li class="nav-item {{ Request::is('postulers*') ? 'active' : '' }}">
+    <a class="nav-link" href="{!! url('/logout') !!}"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="nav-icon icon-cursor"></i><span>Deconnexion</span>
+    </a>
+    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
 </li>

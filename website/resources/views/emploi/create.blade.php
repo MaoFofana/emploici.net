@@ -32,7 +32,9 @@
 @if (Route::has('login'))
     @auth
         @if(auth()->user()->role == "RECRUTEUR")
+
             <section class="contact-section section_padding">
+
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -142,15 +144,16 @@
                         </div>
                         <div class="row">
                             <!-- Description Field -->
-                            <div class="form-group col-sm-12 col-lg-12">
+                            <div class="form-group col-sm-12 col-lg-12 mx-3">
                                 {!! Form::label('description', 'Description:') !!}
-                                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+                                <input id="x" type="hidden" name="description">
+                                <trix-editor input="x" class="form-control"></trix-editor>
                             </div>
                         </div>
                         <!-- Submit Field -->
                         <div class="form-group col-sm-12">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" style="margin-bottom: 5px">
                                     {!! Form::submit('Enregistrer', ['class' => 'btn btn-primary btn-block btn-flat btn-lg']) !!}
                                 </div>
                                 <div class="col-sm-6">

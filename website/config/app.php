@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://emploici.net'),
 
     'asset_url' => env('ASSET_URL', null),
 

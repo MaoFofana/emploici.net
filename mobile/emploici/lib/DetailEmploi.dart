@@ -8,6 +8,7 @@ import 'package:emploici/other/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -38,6 +39,7 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
   Widget build(BuildContext context) {
     return  new Scaffold(
       appBar: AppBar(
+          title: Text("Emploici.net "),
           leading: IconButton(
             icon: Icon(
               Icons.keyboard_backspace,
@@ -64,12 +66,12 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                                 width: 150.0,
                                 height: 150.0,
                                 decoration: BoxDecoration(
-                                    color: Colors.red,
+                                    color: Colors.white,
                                     image: DecorationImage(
                                         image: NetworkImage(
                                             '$SERVER_BASE_IP' + '/storage/'+ detailsJson['user']['link'] ),
                                         fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.all(Radius.circular(75.0)),
+                                   // borderRadius: BorderRadius.all(Radius.circular(75.0)),
                                     boxShadow: [
                                       BoxShadow(blurRadius: 7.0, color: Colors.black)
                                     ])),
@@ -198,13 +200,13 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                             ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(10, 10, 10, 3),
-                              child: Text(
+                              child: HtmlWidget(detailsJson['description']) /*Text(
                                 detailsJson['description'] ,
                                 style: TextStyle(
                                     fontSize: 15.0,
                                     fontStyle: FontStyle.italic,
                                     fontFamily: 'Montserrat'),
-                              ),
+                              )*/,
                             )
                             ,
                             SizedBox(height: 25.0),
@@ -244,7 +246,9 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                   ],
                 );
               } else if (snapshot.hasError) {
-                return Text("Veuillez vous connecté");
+                return Center(
+                  child: Text("Veuillez vous connecté", style: TextStyle(fontSize: 12),),
+                );
               }
               // By default, show a loading spinner.
               return Center(

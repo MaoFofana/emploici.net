@@ -2,11 +2,13 @@
 
 namespace App;
 
+use App\Mail\PasswordResetMail;
 use App\Models\Entreprise;
 use App\Models\Job;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements MustVerifyEmail , JWTSubject
@@ -69,4 +71,5 @@ class User extends Authenticatable implements MustVerifyEmail , JWTSubject
     {
         return $this->hasOne(Entreprise::class);
     }
+
 }

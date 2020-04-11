@@ -15,8 +15,7 @@ class GestionController extends Controller
 
 
     public function index(){
-        broadcast(new WebsocketEvent('ee'));
-        $jobs = Job::all()->take(5)->reverse();
+        $jobs = Job::all()->where('datelimite', ">=",date("Y-m-d H:i:s"))->take(5)->reverse();
         return view('welcome', ['jobs'=>$jobs]);
     }
     public function offres(){
@@ -33,12 +32,12 @@ class GestionController extends Controller
     public function destroyoffre(Request $request){
         $id= $request->input('id');
         $job = Job::find($id);
-        $job->delete();
+        $job->forceDelete();;
         return redirect('/offres');
     }
 
     public function liste(){
-        $jobs = Job::paginate(15);
+        $jobs = Job::where('datelimite', ">=",date("Y-m-d H:i:s"))->paginate(15);
         return view('liste', ['jobs'=>$jobs, 'message'=>'']);
     }
 
@@ -54,7 +53,11 @@ class GestionController extends Controller
         $user = Auth::user();
         $user -> link = $filename;
         $user ->save();
-        return redirect('/information');
+        if(\auth()->user()->role != "ADMIN"){
+            return  redirect('/information');
+        }else {
+            return redirect("/profile");
+        }
 
     }
 
@@ -93,5 +96,19 @@ class GestionController extends Controller
         $postuler = $jobs->postuler;
 
         return view('listepostulant', ['postulant'=>$postuler]);
+    }
+
+    public function isAdmin(Request $request){
+        $id = $request->input('id');
+
+        $user = User::find($id);
+        if( $user->role == "ADMIN"){
+            $user->role = "CHERCHEUR";
+        }else {
+            $user->role = "ADMIN";
+        }
+        $user->save();
+        return redirect('/users');
+
     }
 }

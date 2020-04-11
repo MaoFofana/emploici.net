@@ -180,7 +180,7 @@
                                             </form>
                                         </div>
                                         <div class="date">
-                                            <p>Date limite: {{$job->datelimite}}</p>
+                                            <p>Date limite: {{$job->datelimite->format('d-m-Y')}}</p>
                                         </div>
                                     </div>
                                 </div>

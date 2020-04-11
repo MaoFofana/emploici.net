@@ -27,8 +27,13 @@
                 <div class="card-body p-4">
                     <form method="post" action="{{ url('/password/reset') }}">
                         {!! csrf_field() !!}
-                        <h1>Reset Password</h1>
-                        <p class="text-muted">Enter email and new password</p>
+                        <h3>Reintialisation de mot de passe</h3>
+                        @php
+                            $segments = \Request::segments();
+                            $token = end($segments);
+                        @endphp
+
+                        <p class="text-muted">Entrer votre email et un nouveau mot de passe</p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">@</span>
@@ -46,13 +51,15 @@
                                 <i class="icon-lock"></i>
                               </span>
                             </div>
-                            <input type="password" class="form-control {{ $errors->has('password')?'is-invalid':''}}" name="password" placeholder="Password">
+                            <input type="password" class="form-control {{ $errors->has('password')?'is-invalid':''}}" name="password" placeholder="Mot de passe">
                             @if ($errors->has('password'))
                                 <span class="invalid-feedback">
                                     <strong>{{ $errors->first('password') }}</strong>
                                 </span>
                             @endif
                         </div>
+
+
                         <div class="input-group mb-4">
                             <div class="input-group-prepend">
                               <span class="input-group-text">
@@ -67,8 +74,9 @@
                                </span>
                             @endif
                         </div>
+                        <input type="hidden" name="token" value="{{$token}}">
                         <button type="submit" class="btn btn-block btn-primary btn-block btn-flat">
-                            <i class="fa fa-btn fa-refresh"></i> Reset
+                            <i class="fa fa-btn fa-refresh"></i> Reintialiser
                         </button>
                     </form>
                 </div>

@@ -121,7 +121,9 @@ class _MyProfileState extends State<Profile> {
                 ],
               );
         } else if (snapshot.hasError) {
-          return Text("Veuillez vous connecté");
+          return Center(
+            child: Text("Veuillez vous connecté", style: TextStyle(fontSize: 12),),
+          );
         }
 
         var token = _localStorageInterface.getString(tokenName);
