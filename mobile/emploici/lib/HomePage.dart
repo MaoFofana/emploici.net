@@ -1,11 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:emploici/ListEmploi.dart';
-import 'package:emploici/ListeUsers.dart';
-import 'package:emploici/Conversation.dart';
-import 'package:emploici/Profile.dart';
-import 'package:emploici/api/api.dart';
+import 'package:emploici/UI/Job/ListJob.dart';
+import 'package:emploici/UI/Chat/ListeUsers.dart';
+import 'package:emploici/UI/Auth/Profile.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
   final int index;

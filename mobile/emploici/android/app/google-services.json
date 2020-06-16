@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "263669862793",
+    "firebase_url": "https://emploici.firebaseio.com",
+    "project_id": "emploici",
+    "storage_bucket": "emploici.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263669862793:android:673d5b819b919d13abd158",
+        "android_client_info": {
+          "package_name": "com.emploici.ci"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263669862793-f5emtv3jp5ln3k1h066g5hd6636md3au.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyyaSYAvxXq2QrQg-bmKvCIUHb4aeL5rQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263669862793-f5emtv3jp5ln3k1h066g5hd6636md3au.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

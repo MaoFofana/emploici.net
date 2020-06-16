@@ -1,16 +1,13 @@
-import 'dart:collection';
-import 'dart:convert';
-
-import 'package:emploici/api/api.dart';
-import 'package:emploici/main.dart';
-import 'package:emploici/model/job.dart';
-import 'package:emploici/model/user.dart';
-import 'package:emploici/other/card_item.dart';
+import 'package:emploici/Data/Api/Job.dart';
+import 'package:emploici/Data/GlobalVariable.dart';
+import 'package:emploici/Data/Model/Job.dart';
+import 'package:emploici/Data/Model/User.dart';
+import 'package:emploici/UI/Component/JobGrid.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:getflutter/getflutter.dart';
-import 'package:emploici/other/data.dart';
+import 'package:emploici/Animations/AnimationDialogue.dart';
 
 
 
@@ -144,7 +141,7 @@ class _ListEmploiState extends State<ListEmploi>  with SingleTickerProviderState
 
         super.build(context);
     return Scaffold(
-        appBar: GFAppBar(
+        appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text("Emploici.net "),
           actions: <Widget>[
@@ -154,7 +151,7 @@ class _ListEmploiState extends State<ListEmploi>  with SingleTickerProviderState
                 Icons.search,
                 color: Colors.white, size: 30,),
               onPressed: () async {
-                await animated_dialog_box.showRotatedAlert(
+                await Animated_dialog_boxa.showRotatedAlert(
                     title: Center(
                         child:
                         Text("Recherche")
@@ -195,60 +192,63 @@ class _ListEmploiState extends State<ListEmploi>  with SingleTickerProviderState
                         Navigator.of(context).pop();
                       },
                     ),
-                    icon: Icon(Icons.search ),
-                    yourWidget: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          TextField(
-                            controller: _nom,
-                            decoration: InputDecoration.collapsed(
-                                hintText: 'Nom',border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey, width: 0.0),
-                            ), hintStyle: TextStyle(color: Colors.black,)),
-                          ),  SizedBox(height: 10.0),
-                        FindDropdown(
-                          items: itemsTypeOffre,
-                          label: "Type d'offre",
-                          selectedItem: "Aucun",
-                          searchBoxDecoration: InputDecoration(hintText: "Chercher"),
-                          onChanged: (String item){
-                            setState(() {
-                              jobList.clear();
-                              searchActive = true;
-                              _typeoffres= item;
-                            });
-                          },
-                        ),  SizedBox(height: 10.0),
-                        FindDropdown(
-                          items: itemsSecteurActivite,
-                          label: "Secteur d'activité",
-                          selectedItem: "Aucun",
-                          searchBoxDecoration: InputDecoration(hintText: "Chercher"),
-                          onChanged: (String item){
-                            setState(() {
-                              jobList.clear();
-                              searchActive = true;
-                              _secteur = item;
-                            });
-                          },
-                        ), SizedBox(height: 10.0),
+                    icon: Icon(Icons.search , size: 20,),
+                    yourWidget:
+                    Container(
+                        child: SingleChildScrollView(
+                          child:
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            TextField(
+                              controller: _nom,
+                              decoration: InputDecoration.collapsed(
+                                  hintText: '   Nom',border: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+                              ), hintStyle: TextStyle(color: Colors.black,)),
+                            ),  SizedBox(height: 10.0),
+                            FindDropdown(
+                              items: itemsTypeOffre,
+                              label: "Type d'offre",
+                              selectedItem: "Aucun",
+                              searchBoxDecoration: InputDecoration(hintText: "Chercher"),
+                              onChanged: (String item){
+                                setState(() {
+                                  jobList.clear();
+                                  searchActive = true;
+                                  _typeoffres= item;
+                                });
+                              },
+                            ),  SizedBox(height: 10.0),
+                            FindDropdown(
+                              items: itemsSecteurActivite,
+                              label: "Secteur d'activité",
+                              selectedItem: "Aucun",
+                              searchBoxDecoration: InputDecoration(hintText: "Chercher"),
+                              onChanged: (String item){
+                                setState(() {
+                                  jobList.clear();
+                                  searchActive = true;
+                                  _secteur = item;
+                                });
+                              },
+                            ), SizedBox(height: 10.0),
 
-                      FindDropdown(
-                        items: itemsNiveau,
-                        label: "Niveau d'etude",
-                        selectedItem: "Aucun",
-                        searchBoxDecoration: InputDecoration(hintText: "Chercher"),
-                        onChanged: (String item){
-                          setState(() {
-                            jobList.clear();
-                            searchActive = true;
-                            _niveau = item;
-                          });
-                        },
-                      ),
-                        ],
-                      )
+                            FindDropdown(
+                              items: itemsNiveau,
+                              label: "Niveau d'etude",
+                              selectedItem: "Aucun",
+                              searchBoxDecoration: InputDecoration(hintText: "Chercher"),
+                              onChanged: (String item){
+                                setState(() {
+                                  jobList.clear();
+                                  searchActive = true;
+                                  _niveau = item;
+                                });
+                              },
+                            ),
+                          ],
+                        ),)
                     ));
               },
               type: GFButtonType.transparent,
@@ -283,32 +283,29 @@ class _ListEmploiState extends State<ListEmploi>  with SingleTickerProviderState
                     }
                 }
                 if(jobList.isNotEmpty){
-                  return Container(
-                      child: Stack(
-                        children: <Widget>[
-                          ListView.separated(
-                            padding: EdgeInsets.all(10),
-                            separatorBuilder: (BuildContext context, int index) {
-                              return Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  height: 0.5,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 1.3,
-                                  child: Divider(),
-                                ),
-                              );
-                            },
-                            itemCount: jobList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return  CardItem(job : jobList[index] );
-                            },
-                          ),
-                        ],
-                      )
-                  );
+                  return SingleChildScrollView(
+                    child: Container(
+                        child: Stack(
+                          children: <Widget>[
+                            GridView.count(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(horizontal: 7.0, vertical: 10.0),
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 15.0,
+                              childAspectRatio: 0.545,
+                              crossAxisCount: 2,
+                              primary: false,
+                              children:List.generate(
+                                /// Get data in flashSaleItem.dart (ListItem folder)
+                                jobList.length,
+                                    (index) => ProductGrid(jobList[index]),
+                              ),
+                            )
+                          ],
+                        )
+                    ),
+                  ) ;
+
                 }
                 else {
                   return Container(

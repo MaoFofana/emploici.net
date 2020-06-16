@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as math;
 
-
-
-// ignore: camel_case_types
-class animated_dialog_box {
+class Animated_dialog_boxa {
   static Future showCustomAlertBox({
     @required BuildContext context,
     @required Widget yourWidget,

@@ -1,16 +1,14 @@
+import 'package:emploici/Data/Api/Auth.dart';
+import 'package:emploici/Data/GlobalVariable.dart';
 import 'package:emploici/HomePage.dart';
-import 'package:emploici/api/api.dart';
-import 'package:emploici/main.dart';
+import 'package:emploici/UI/Component/Button.dart';
 import 'package:flutter/material.dart';
-import 'package:getflutter/getflutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
-
-
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -43,30 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  Widget _submitButton() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Colors.blue, Colors.blue])),
-      child: Text(
-        'Connexion',
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-    );
-  }
+
 
   Widget _createAccountLabel() {
     return Container(
@@ -124,27 +99,26 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: GFAppBar(
+        appBar: AppBar(
           title: Text("Connexion"),
         ),
         body:  Container(
-          height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
                   children: <Widget>[
                     Expanded(
-                      flex: 3,
-                      child: SizedBox(),
+                      flex: 1,
+                      child: SizedBox(height: 3,),
                     ),
                     _title(),
-                    SizedBox(height: 50,),
+                    SizedBox(height: 30,),
                     _emailPasswordWidget(),
                     SizedBox(height: 20,),
                     InkWell(
-                      child: _submitButton(),
+                      child: SubmitButton("Connexion"),
                       onTap: () async {
                         var email = _emailController.text;
                         var password = _passwordController.text;
@@ -161,8 +135,6 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
 
-
-                    SizedBox(height: 20,),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: _createAccountLabel(),

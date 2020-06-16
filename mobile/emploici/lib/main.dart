@@ -2,13 +2,12 @@ import 'dart:async';
 import 'package:emploici/Animations/FadeAnimation.dart';
 import 'package:emploici/HomePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:page_transition/page_transition.dart';
 
 
-const SERVER_BASE_IP = "http://localhost:8000"; //"http://emploici.net/web/public";
-const SERVER_IP = "$SERVER_BASE_IP/api/auth";
-final storage = FlutterSecureStorage();
+
+//final storage = FlutterSecureStorage();
 
 void main() => runApp(
     MaterialApp(

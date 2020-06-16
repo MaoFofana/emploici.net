@@ -1,29 +1,26 @@
-
-import 'package:emploici/Conversation.dart';
-import 'package:emploici/api/api.dart';
-import 'package:emploici/main.dart';
-import 'package:emploici/model/user.dart';
+import 'package:emploici/UI/Chat/Conversation.dart';
+import 'package:emploici/Data/Api/Auth.dart';
+import 'package:emploici/Data/Api/Message.dart';
+import 'package:emploici/Data/Model/User.dart';
 import 'package:flutter/material.dart';
 
 class ChatItem extends StatefulWidget {
   final int to;
   final String dp;
   final String name;
-  //final String time;
   final String msg;
-  // final bool isOnline;
-  final int from ;
+  final bool admin ;
   final int counter;
-
+  final int me;
   ChatItem({
     Key key,
     @required this.to,
     @required this.dp,
     @required this.name,
-    // @required this.time,
     @required this.msg,
     @required this.counter,
-    @required this.from
+    @required this.admin,
+    @required this.me
   }) : super(key: key);
 
   @override
@@ -31,16 +28,11 @@ class ChatItem extends StatefulWidget {
 }
 
 class _ChatItemState extends State<ChatItem> {
-
-
   Future<User> futureUser;
-
   @override
   void initState() {
     super.initState();
     futureUser = getMe();
-    //if(user.role == "ADMIN") Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: Conversation(user.id, 0, user.name, user.link, false)));
-
   }
   @override
   Widget build(BuildContext context) {
@@ -52,13 +44,12 @@ class _ChatItemState extends State<ChatItem> {
               children: <Widget>[
                 CircleAvatar(
                   backgroundImage: NetworkImage (
-                    SERVER_BASE_IP + "/storage/"+ widget.dp,
+                    widget.dp,
                   ),
                   radius: 25,
                 ),
               ],
             ),
-
             title: Text(
               "${widget.name}",
               style: TextStyle(
@@ -97,12 +88,17 @@ class _ChatItemState extends State<ChatItem> {
               ],
             ),
             onTap: () async {
-                var lu = await desableLu(widget.from);
+                await desableLu(widget.to);
               Navigator.of(context, rootNavigator: true).push(
                 MaterialPageRoute(
                   builder: (BuildContext context){
-
-                    return Conversation(widget.from,widget.to, widget.name, widget.dp,true);
+                   return   new Conversation(
+                      to: widget.to,
+                      admin: widget.admin,
+                      name: widget.name,
+                      image: widget.dp,
+                      me: widget.me
+                    );
                   },
                 ),
               );

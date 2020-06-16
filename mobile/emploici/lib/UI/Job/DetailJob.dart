@@ -1,22 +1,13 @@
-import 'package:emploici/LoginPage.dart';
-import 'package:emploici/HomePage.dart';
-import 'package:emploici/main.dart';
-import 'package:emploici/api/api.dart';
-import 'package:emploici/model/job.dart';
-import 'package:emploici/model/user.dart';
-import 'package:emploici/other/data.dart';
+import 'package:emploici/Data/Api/Job.dart';
+import 'package:emploici/Data/GlobalVariable.dart';
+import 'package:emploici/UI/Component/Button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:getflutter/getflutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:marquee/marquee.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'LoginPage.dart';
 
 
 class DetailEmploi extends StatefulWidget {
@@ -28,6 +19,7 @@ class DetailEmploi extends StatefulWidget {
 
 class _MyDetailEmploiState extends State<DetailEmploi> {
   Future futureJob;
+  int id;
   @override
   void initState() {
     super.initState();
@@ -38,6 +30,12 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
   @override
   Widget build(BuildContext context) {
     return  new Scaffold(
+      bottomSheet: Container(height: 50 , child: InkWell(
+        child:Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0), child:  SubmitButton("Postuler"),),
+        onTap: (){
+          launch("$SERVER_BASE_IP/details/" + id.toString());
+        },
+      )),
       appBar: AppBar(
           title: Text("Emploici.net "),
           leading: IconButton(
@@ -53,6 +51,9 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                 Map<String, dynamic> detailsJson  = snapshot.data;
                 String natureLimite = detailsJson['datelimite'];
                 String traitement = natureLimite.replaceAll("-", "/").substring(0, natureLimite.indexOf('T'));
+
+                  id = detailsJson['id'];
+
                 return   Stack(
                     alignment: AlignmentDirectional.topStart,
                   children: <Widget>[
@@ -99,7 +100,7 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(child: Icon(
-                                      Icons.add_location, color: Colors.black,
+                                      Icons.place, color: Colors.black,
                                       size: 22.0,),),
                                     Container(
                                         child: Text(detailsJson['lieu'],
@@ -121,7 +122,7 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                                       crossAxisAlignment:  CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          'Date limite          :',
+                                          'Date limite           :',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontSize: 15.0,
@@ -135,14 +136,14 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                                               fontFamily: 'Montserrat'),
                                         ),
                                         Text(
-                                          'Nature du travail :',
+                                          'Nature du travail  :',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontSize: 15.0,
                                               fontFamily: 'Montserrat'),
                                         ),
                                         Text(
-                                          "Niveau d'etude   :",
+                                          "Niveau d'etude    :",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                               fontSize: 15.0,
@@ -210,36 +211,7 @@ class _MyDetailEmploiState extends State<DetailEmploi> {
                             )
                             ,
                             SizedBox(height: 25.0),
-                           GFButton(
-                              onPressed: (){
-                                launch("$SERVER_BASE_IP/details/" + detailsJson['id'].toString());
-                              },
-                              text: "Postuler",
-                              shape: GFButtonShape.square,
-                              blockButton: true,
-                              size: GFSize.MEDIUM,
-                              color: Colors.blue
-                            ),
-                            /*    Container(
-                              height: 30.0,
-                              width: 95.0,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(20.0),
-                                shadowColor: Colors.redAccent,
-                                color: Colors.red,
-                                elevation: 7.0,
-                                child: GestureDetector(
-                                  onTap: () async {
 
-                                  },
-                                  child: Center(
-                                    child: Text(
-                                      'Deconnection',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ))*/
                           ],
                         )
                     )
